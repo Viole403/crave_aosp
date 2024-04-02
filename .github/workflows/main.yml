@@ -21,6 +21,7 @@ on:
           - 'ArrowOS 13.1'
           - 'DerpFest 13.0'
           - 'CipherOS 14'
+          - 'CherishOS 14'
       BUILD_DIFFERENT_ROM:
         description: "Command to initialize a different 'repo' project:"
         required: false
@@ -31,19 +32,19 @@ on:
       LOCAL_MANIFEST:
         description: "Personal local manifest [repository or raw]:"
         required: true
-        default: 'https://github.com/sounddrill31/local_manifests'
+        default: 'https://github.com/Viole403/local_manifest'
       LOCAL_MANIFEST_BRANCH:
         description: "Personal local manifest's branch:"
         required: false
-        default: 'lineage-oxygen'
+        default: 'main'
       DEVICE_NAME:
         description: "Device's codename:"
         required: true
-        default: "oxygen"
+        default: "lancelot"
       PRODUCT_NAME:
         description: "Product to build:"
         required: true
-        default: "lineage_oxygen"
+        default: "lineage_lancelot"
       BUILD_COMMAND:
         description: 'Command to be used for compiling:'
         required: true
@@ -101,6 +102,9 @@ jobs:
         ;;
         "CipherOS 14")
           export PROJECTFOLDER="/crave-devspaces/Cipher14"
+        ;;
+        "CherishOS 14")
+         export PROJECTFOLDER="/crave-devspace/Cherish14"
         ;;
         esac
         if [ -d "$PROJECTFOLDER" ]; then
@@ -173,6 +177,8 @@ jobs:
                   "CipherOS 14")
                     repo init -u https://github.com/CipherOS/android_manifest.git -b fourteen --git-lfs --depth=1
                   ;;
+                  "CherishOS 14")
+                  repo init -u https://github.com/CherishOS/android_manifest.git -b uqpr2 --git-lfs --depth=1
               esac
              else
                       ${{ github.event.inputs.BUILD_DIFFERENT_ROM }}
@@ -239,6 +245,10 @@ jobs:
           "CipherOS 14")
             repo init -u https://github.com/CipherOS/android_manifest.git -b fourteen --git-lfs --depth=1
             export BUILD_DIFFERENT_ROM="repo init -u https://github.com/CipherOS/android_manifest.git -b fourteen --git-lfs --depth=1"
+          ;;
+          "CherishOS 14"
+            repo init -u https://github.com/CherishOS/android_manifest.git -b uqpr2 --git-lfs --depth=1
+            export BUILD_DIFFERENT_ROM="repo init -u https://github.com/CherishOS/android_manifest -b uqpr2 --git-lfs --depth=1"
           ;;
         esac
         if [ "${{ github.event.inputs.BUILD_DIFFERENT_ROM }}" == "echo 'Build Starting!'" ]; then
